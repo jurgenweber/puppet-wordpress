@@ -166,3 +166,22 @@ class { 'wordpress':
   wp_additional_config => 'foo/wp-config-extra.php.erb',
 }
 ```
+
+Callling the class means one install per machine, if you prefer to have multiple installs per machine you can call the sub class/defines.
+
+```
+wordpress::app { $wordpress:
+  install_dir    => '/var/www/wordpress',
+  db_name        => 'wordpress',
+  db_host        => 'db_host',
+  db_user        => 'wp_user',
+  db_password    => 'password',
+  wp_site_domain => 'example.com',
+}
+wordpress::db { $wordpress:
+  db_name        => 'wp_db',
+  db_host        => 'db_host',
+  db_user        => 'db_user',
+  db_password    => 'password',
+}
+```

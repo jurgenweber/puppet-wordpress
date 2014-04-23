@@ -73,7 +73,7 @@
 class wordpress (
   $install_dir          = '/opt/wordpress',
   $install_url          = 'http://wordpress.org',
-  $version              = '3.8',
+  $version              = '3.9',
   $create_db            = true,
   $create_db_user       = true,
   $db_name              = 'wordpress',
