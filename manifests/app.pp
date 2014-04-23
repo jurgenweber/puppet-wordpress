@@ -33,13 +33,6 @@ define wordpress::app (
     group  => $wp_group,
     mode   => '0644',
   }
-  Exec {
-    path      => ['/bin','/sbin','/usr/bin','/usr/sbin'],
-    cwd       => $install_dir,
-    logoutput => 'on_failure',
-    user      => $wp_owner,
-    group     => $wp_group,
-  }
 
   ## Installation directory
   if ! defined(File[$install_dir]) {
@@ -53,17 +46,32 @@ define wordpress::app (
 
   ## Download and extract
   exec { "Download wordpress ${wp_site_domain}":
-    command => "wget ${install_url}/wordpress-${version}.tar.gz",
-    creates => "${install_dir}/wordpress-${version}.tar.gz",
-    require => File[$install_dir],
+    command     => "wget ${install_url}/wordpress-${version}.tar.gz",
+    creates     => "${install_dir}/wordpress-${version}.tar.gz",
+    require     => File[$install_dir],
+    path        => ['/bin','/sbin','/usr/bin','/usr/sbin'],
+    cwd         => $install_dir,
+    logoutput   => 'on_failure',
+    user        => $wp_owner,
+    group       => $wp_group,
   }
   -> exec { "Extract wordpress ${wp_site_domain}":
-    command => "tar zxvf ./wordpress-${version}.tar.gz --strip-components=1",
-    creates => "${install_dir}/index.php",
+    command     => "tar zxvf ./wordpress-${version}.tar.gz --strip-components=1",
+    creates     => "${install_dir}/index.php",
+    path        => ['/bin','/sbin','/usr/bin','/usr/sbin'],
+    cwd         => $install_dir,
+    logoutput   => 'on_failure',
+    user        => $wp_owner,
+    group       => $wp_group,
   }
   ~> exec { "Change ownership ${wp_site_domain}":
     command     => "chown -R ${wp_owner}:${wp_group} ${install_dir}",
     refreshonly => true,
+    path        => ['/bin','/sbin','/usr/bin','/usr/sbin'],
+    cwd         => $install_dir,
+    logoutput   => 'on_failure',
+    user        => $wp_owner,
+    group       => $wp_group,
   }
 
   ## Configure wordpress
