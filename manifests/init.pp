@@ -92,7 +92,7 @@ class wordpress (
   $wp_site_domain       = '',
 ) {
   anchor { 'wordpress::begin': }
-  -> class { 'wordpress::app':
+  -> wordpress::app { $wp_site_domain:
     install_dir          => $install_dir,
     install_url          => $install_url,
     version              => $version,
@@ -111,7 +111,7 @@ class wordpress (
     wp_multisite         => $wp_multisite,
     wp_site_domain       => $wp_site_domain,
   }
-  -> class { 'wordpress::db':
+  -> wordpress::db { $wp_site_domain:
     create_db      => $create_db,
     create_db_user => $create_db_user,
     db_name        => $db_name,
