@@ -1,3 +1,6 @@
+#
+#
+#
 define wordpress::app (
   $install_dir          = '/opt/wordpress',
   $install_url          = 'http://wordpress.org',
